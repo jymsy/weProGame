@@ -1,5 +1,5 @@
-import Sprite from './sprite'
-import DataBus from '../databus'
+import Sprite from './sprite.js'
+import DataBus from './databus.js'
 
 let databus = new DataBus()
 
@@ -48,10 +48,10 @@ export default class Animation extends Sprite {
    */
   initFrames(imgList) {
     imgList.forEach((imgSrc) => {
-      let img = new Image()
-      img.src = imgSrc
-
-      this.imgList.push(img)
+    //   let img = new Image()
+        // img.src = imgSrc
+        // this.imgList.push(img)
+        this.imgList.push(imgSrc)
     })
 
     this.count = imgList.length
@@ -101,9 +101,7 @@ export default class Animation extends Sprite {
     if (this.index > this.count - 1) {
       if (this.loop) {
         this.index = 0
-      }
-
-      else {
+      } else {
         this.index--
         this.stop()
       }

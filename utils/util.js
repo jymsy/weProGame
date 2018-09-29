@@ -29,8 +29,13 @@ const cancelAnimationFrame = id => {
     clearTimeout(id)
 }
 
+const rnd = (start, end) => {
+    return Math.floor(Math.random() * (end - start) + start)
+}
+
 module.exports = {
     formatTime: formatTime,
     requestAnimationFrame: requestAnimationFrame,
-    cancelAnimationFrame: cancelAnimationFrame
+    cancelAnimationFrame: cancelAnimationFrame,
+    rnd: rnd
 }

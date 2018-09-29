@@ -1,4 +1,4 @@
-import Pool from './pool'
+import Pool from './pool.js'
 
 let instance
 
@@ -6,7 +6,7 @@ let instance
  * 全局状态管理器
  */
 export default class DataBus {
-    scor = 0
+    
     constructor() {
         if (instance) {
             return instance
