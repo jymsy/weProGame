@@ -19,10 +19,11 @@ export default class DataBus {
     reset() {
         this.frame = 0
         this.score = 0
-        this.bullets = []
         this.enemys = []
+        this.bullets = []
         this.animations = []
         this.gameOver = false
+        this.slotPool = {}
     }
 
     /**

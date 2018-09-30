@@ -17,22 +17,62 @@ export default class Enemy extends Animation
 {
     constructor() {
         super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT)
+        this.xDirt = '+'
+        this.yDirt = '+'
         // this.initExplosionAnimation()
     }
 
     init(speed) {
-        this.x = util.rnd(0, app.windowWidth - ENEMY_WIDTH)
+        let slot = {}
+        this.id = databus.enemys.length
+        if (this.inLeftSlot(this.id)) {
+            let leftIndex = databus.slotPool.getLeftIndex()
+            slot = databus.slotPool.leftSlot[leftIndex]
+            databus.slotPool.leftSlotItems++
+        } else {
+            let rightIndex = databus.slotPool.getRightIndex()
+            slot = databus.slotPool.rightSlot[rightIndex]
+            databus.slotPool.rightSlotItems++
+        }
+        slot.fill()
+        this.fx = slot.x
+        this.fy = slot.y
+        this.x = -this.width
+        this.sx = -this.width
         this.y = -this.height
+        this.sy = -this.height
         this[__.speed] = speed
         this.visible = true
     }
 
-    update() {
-        this.y += this[__.speed]
+    //是否在左侧
+    inLeftSlot(index) {
+        let mod = index % 6
+        return mod === 0 || mod === 1 || mod === 2
+    }
 
+    update() {
+        if (this.y >= this.fy) {
+            this.y = this.fy
+            this.x = this.fx
+            return
+        }
+        if (this.xDirt === '+') {
+            this.x += this[__.speed]
+        } else {
+            this.x -= this[__.speed]
+        }
+        this.y = this.getY(this.x)
+        
         // 对象回收
         if (this.y > app.windowHeight + this.height)
             databus.removeEnemey(this)
+    }
+
+    getY(x) {
+        let k = (this.fy - this.sy) / (this.fx - this.sx)
+        let b = this.sy - k * this.sx
+        return k * x + b
     }
 }
 

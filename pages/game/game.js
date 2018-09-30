@@ -3,6 +3,7 @@ import util from '../../utils/util.js'
 import DataBus from '../../base/databus.js'
 import BackGround from '../../runtime/background.js'
 import Enemy from '../../runtime/enemy.js'
+import SlotPool from '../../runtime/slotpool.js'
 const BG_IMG_SRC = '../../../images/bg.jpg'
 const BG_WIDTH = 512
 const BG_HEIGHT = 512
@@ -37,12 +38,7 @@ Page({
         databus.reset()
 
         this.bg = new BackGround(this.ctx)
-
-
-        // this.top = 0
-        // this.render()
-
-        this.ctx.draw()
+        databus.slotPool = new SlotPool()
 
         util.cancelAnimationFrame(this.aniId)
         this.aniId = util.requestAnimationFrame(() => {
@@ -65,10 +61,19 @@ Page({
      * 帧数取模定义成生成的频率
      */
     enemyGenerate() {
-        if (databus.frame % 30 === 0) {
+        if (databus.enemys.length > 35) {
+            return
+        }
+        if (databus.frame % 5 === 0) {
             let enemy = databus.pool.getItemByClass('enemy', Enemy)
-            enemy.init(6)
+            enemy.init(3)
             databus.enemys.push(enemy)
+        }
+    },
+    //随机移动飞机
+    randMoveEnemy: function () {
+        if (databus.frame % 200 === 0) {
+            
         }
     },
 
@@ -81,24 +86,7 @@ Page({
         })
 
         this.enemyGenerate()
-
-        // this.top += 2
-        // this.planeX += this.planeXV
-        // this.planeY += this.planeYV
-        // if (this.planeX >= app.windowWidth) {
-        //     this.planeXV = -2;
-        // } else if (this.planeX <= 0) {
-        //     this.planeXV = 2;
-        // }
-        // if (this.planeY >= app.windowHeight) {
-        //     this.planeYV = -4;
-        // } else if (this.planeY <= 0) {
-        //     this.planeYV = 4;
-        // }
-        // if (this.top >= app.windowHeight) {
-        //     this.top = 0
-        // }
-
+        this.randMoveEnemy()
     },
 
     render: function () {
@@ -107,35 +95,6 @@ Page({
         databus.enemys.forEach((item) => {
             item.drawToCanvas(this.ctx)
         })
-        // this.ctx.drawImage(
-        //     '../../images/bg.jpg',
-        //     0,
-        //     -app.windowHeight + this.top,
-        //     app.windowWidth,
-        //     app.windowHeight
-        //     // 0,
-        //     // -app.screenHeight + this.top,
-        //     // app.screenWidth,
-        //     // app.screenHeight
-        // )
-        // this.ctx.drawImage(
-        //     '../../images/bg.jpg',
-        //     0,
-        //     this.top,
-        //     app.windowWidth,
-        //     app.windowHeight
-        //     // 0,
-        //     // this.top,
-        //     // app.screenWidth,
-        //     // app.screenHeight
-        // )
-        // this.ctx.drawImage(
-        //     '../../images/enemy.png',
-        //     this.planeX,
-        //     this.planeY,
-        //     20,
-        //     15
-        // )
     },
 
     /**
@@ -164,5 +123,6 @@ Page({
      */
     onUnload: function () {
         util.cancelAnimationFrame(this.aniId)
+        databus.reset()
     },
 })
