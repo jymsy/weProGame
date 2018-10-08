@@ -35,14 +35,17 @@ export default class Enemy extends Animation
             databus.slotPool.rightSlotItems++
         }
         slot.fill()
+        slot.item = this
         this.fx = slot.x
         this.fy = slot.y
         this.x = -this.width
         this.sx = -this.width
         this.y = -this.height
         this.sy = -this.height
-        this[__.speed] = speed
+        // this[__.speed] = speed
+        this.speed = speed
         this.visible = true
+        this.moving = true
     }
 
     //是否在左侧
@@ -52,15 +55,17 @@ export default class Enemy extends Animation
     }
 
     update() {
-        if (this.y >= this.fy) {
+        if ((this.xDirt === '+' && this.x >= this.fx) || 
+        (this.xDirt === '-' && this.x <= this.fx)) {
+            this.moving = false
             this.y = this.fy
             this.x = this.fx
             return
         }
         if (this.xDirt === '+') {
-            this.x += this[__.speed]
+            this.x += this.speed
         } else {
-            this.x -= this[__.speed]
+            this.x -= this.speed
         }
         this.y = this.getY(this.x)
         

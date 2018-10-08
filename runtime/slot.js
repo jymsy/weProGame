@@ -6,7 +6,7 @@ export default class Slot
         this.isEmpty = true
         this.item = {}
         this.isPlayer = isPlayer
-        this.isMoving = false
+        // this.isMoving = false
     }
 
     fill() {

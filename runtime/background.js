@@ -1,6 +1,6 @@
 import Sprite from '../base/sprite'
 
-const BG_IMG_SRC = '../../images/bg.jpg'
+const BG_IMG_SRC = '../../images/grass.jpg'
 const BG_WIDTH = 512
 const BG_HEIGHT = 512
 const app = getApp()

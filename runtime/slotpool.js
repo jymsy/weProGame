@@ -63,30 +63,58 @@ export default class SlotPool
 
     randMoveSlotItem() {
         this.leftSlot.forEach((slot) => {
-            if (!slot.isEmpty && !slot.isMoving && this.doMove()) {
+            if (!slot.isEmpty && !slot.item.moving && this.doMove()) {
                 this.moveTo('right', slot)
             }
         })
-        // this.rightSlot.forEach((item) => {
-        //     if (!item.isEmpty && this.doMove()) {
-        //         this.moveTo('left')
-        //     }
-        // })
+        this.rightSlot.forEach((slot) => {
+            if (!slot.isEmpty && !slot.item.moving && this.doMove()) {
+                this.moveTo('left', slot)
+            }
+        })
     }
 
     moveTo(direction, slot) {
-        slot.isMoving = true
         if (direction === 'right') {
-            this.rightSlot.forEach((rslot) => {
-                if (rslot.isEmpty && !rslot.isMoving) {
-                    rslot.isMoving = true
+            for (let i = 0; i < this.rightSlot.length; i++) {
+                let rslot = this.rightSlot[i]
+                if (rslot.isEmpty && !rslot.item.moving) {
+                    console.log('move right')
+                    slot.item.moving = false
+                    rslot.item.moving = true
                     rslot.fill()
+                    slot.item.sx = slot.x
+                    slot.item.sy = slot.y
+                    slot.item.fx = rslot.x
+                    slot.item.fy = rslot.y
+                    slot.item.xDirt = '+'
+                    slot.item.speed = 3
                     rslot.item = slot.item
-                    
+                    slot.empty()
+                    slot.item = {}
+                    return
                 }
-            })
+            }
         } else {
-
+            for (let i = 0; i < this.leftSlot.length; i++) {
+                let lslot = this.leftSlot[i]
+                if (lslot.isEmpty && !lslot.item.moving) {
+                    console.log('move left')
+                    slot.item.moving = false
+                    lslot.item.moving = true
+                    lslot.fill()
+                    slot.item.sx = slot.x
+                    slot.item.sy = slot.y
+                    slot.item.fx = lslot.x
+                    slot.item.fy = lslot.y
+                    slot.item.xDirt = '-'
+                    slot.item.speed = 3
+                    lslot.item = slot.item
+                    slot.empty()
+                    slot.item = {}
+                    return
+                }
+            }
         }
     }
 

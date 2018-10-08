@@ -72,8 +72,8 @@ Page({
     },
     //随机移动飞机
     randMoveEnemy: function () {
-        if (databus.frame % 200 === 0) {
-            
+        if (databus.frame % 280 === 0) {
+            databus.slotPool.randMoveSlotItem()
         }
     },
 
