@@ -50,5 +50,14 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  onShareAppMessage: function () {
+    return {
+      title: 'sdfs',
+      path: '/',
+      success: function () {
+        console.log('share succ')
+      }
+    }
   }
 })

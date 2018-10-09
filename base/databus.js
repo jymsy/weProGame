@@ -24,6 +24,7 @@ export default class DataBus {
         this.animations = []
         this.gameOver = false
         this.slotPool = {}
+        this.playerFrames = []
     }
 
     /**

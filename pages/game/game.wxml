@@ -1,5 +1,5 @@
 <!--pages/game.wxml-->
 <view class='v-main'>
   <canvas class="progress-bg" canvas-id="cg" style="{{bgStyle}}"> </canvas>
-  <view class="v-number">1</view>
+  <view class="v-number" bindtap="click">1</view>
 </view>

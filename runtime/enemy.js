@@ -2,10 +2,22 @@ import Animation from '../base/animation.js'
 import DataBus from '../base/databus.js'
 import util from '../utils/util.js'
 
-const ENEMY_IMG_SRC = '../../images/enemy.png'
-const ENEMY_WIDTH = 30
-const ENEMY_HEIGHT = 30
+const ENEMY_IMG_SRC = '../../images/ff_l1.png'
+// const ENEMY_IMG_SRC = '../../images/enemy.png'
+const ENEMY_WIDTH = 35
+const ENEMY_HEIGHT = 35
 const app = getApp()
+const PLAYERS_AVATAR = [
+    [
+        '../../images/ff_l1.png',
+        '../../images/ff_r1.png',  
+    ],[
+        '../../images/ff_r2.png',
+        '../../images/ff_l2.png',
+    ], [
+
+    ]
+]
 
 const __ = {
     speed: Symbol('speed')
@@ -22,7 +34,7 @@ export default class Enemy extends Animation
         // this.initExplosionAnimation()
     }
 
-    init(speed) {
+    init(speed, isPlayer = false) {
         let slot = {}
         this.id = databus.enemys.length
         if (this.inLeftSlot(this.id)) {
@@ -34,6 +46,7 @@ export default class Enemy extends Animation
             slot = databus.slotPool.rightSlot[rightIndex]
             databus.slotPool.rightSlotItems++
         }
+        this.isPlayer = isPlayer
         slot.fill()
         slot.item = this
         this.fx = slot.x
@@ -46,7 +59,10 @@ export default class Enemy extends Animation
         this.speed = speed
         this.visible = true
         this.moving = true
+        this.initFrames(databus.playerFrames[this.id % 9])
     }
+
+
 
     //是否在左侧
     inLeftSlot(index) {
@@ -78,6 +94,34 @@ export default class Enemy extends Animation
         let k = (this.fy - this.sy) / (this.fx - this.sx)
         let b = this.sy - k * this.sx
         return k * x + b
+    }
+
+    drawToCanvas(ctx) {
+        if (!this.visible) {
+            return
+        }
+        // super.drawToCanvas(ctx)
+        let src = ''
+        if (databus.frame % 8 < 4) {
+            src = this.imgList[0]
+        } else {
+            src = this.imgList[1]
+        }
+        ctx.drawImage(
+            src,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        )
+        ctx.font = '10rpx -apple-system-font,Helvetica Neue,sans-serif'
+        if (this.isPlayer) {
+            ctx.setFillStyle('red')
+        } else {
+            ctx.setFillStyle('white')
+        }
+        
+        ctx.fillText('xxx', this.x, this.y + ENEMY_WIDTH + 7)
     }
 }
 

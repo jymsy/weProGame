@@ -1,5 +1,6 @@
 import Sprite from '../base/sprite'
 
+// const BG_IMG_SRC = '../../images/bg.jpg'
 const BG_IMG_SRC = '../../images/grass.jpg'
 const BG_WIDTH = 512
 const BG_HEIGHT = 512
@@ -16,8 +17,8 @@ export default class BackGround extends Sprite {
     }
 
     update() {
-        this.top += 2
-        if (this.top >= app.windowHeight) {
+        this.top -= 3
+        if (this.top <= -app.windowHeight) {
             this.top = 0
         }
     }
@@ -25,14 +26,13 @@ export default class BackGround extends Sprite {
     /**
      * 背景图重绘函数
      * 绘制两张图片，两张图片大小和屏幕一致
-     * 第一张漏出高度为top部分，其余的隐藏在屏幕上面
-     * 第二张补全除了top高度之外的部分，其余的隐藏在屏幕下面
+     * 第一张在屏幕上显示，第二张隐藏在第一张下面
      */
     render(ctx) {
         ctx.drawImage(
             this.imgSrc,
             0,
-            -app.windowHeight + this.top,
+            this.top,
             app.windowWidth,
             app.windowHeight
         )
@@ -40,7 +40,7 @@ export default class BackGround extends Sprite {
         ctx.drawImage(
             this.imgSrc,
             0,
-            this.top,
+            app.windowHeight + this.top,
             app.windowWidth,
             app.windowHeight
         )

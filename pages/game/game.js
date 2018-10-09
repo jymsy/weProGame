@@ -39,11 +39,31 @@ Page({
 
         this.bg = new BackGround(this.ctx)
         databus.slotPool = new SlotPool()
+        this.initPlayerFrames()
+        this.playerIndex = util.rnd(0, 36)
 
         util.cancelAnimationFrame(this.aniId)
         this.aniId = util.requestAnimationFrame(() => {
             this.loop()
         })
+    },
+    /**
+     * 初始化玩家头像
+     */
+    initPlayerFrames: function () {
+        for (let i = 1;i < 10;i++) {
+            if (util.rnd(0, 2) === 0) {
+                databus.playerFrames.push([
+                    `../../images/ff_l${i}.png`,
+                    `../../images/ff_r${i}.png`
+                ])
+            } else {
+                databus.playerFrames.push([
+                    `../../images/ff_r${i}.png`,
+                    `../../images/ff_l${i}.png`
+                ])
+            }
+        }
     },
 
     loop: function () {
@@ -66,7 +86,7 @@ Page({
         }
         if (databus.frame % 5 === 0) {
             let enemy = databus.pool.getItemByClass('enemy', Enemy)
-            enemy.init(3)
+            enemy.init(3, databus.enemys.length === this.playerIndex)
             databus.enemys.push(enemy)
         }
     },
@@ -125,4 +145,9 @@ Page({
         util.cancelAnimationFrame(this.aniId)
         databus.reset()
     },
+    click: function () {
+        wx.showToast({
+            title: 'sdf',
+        })
+    }
 })

@@ -4,7 +4,7 @@ export default class Slot
         this.x = x
         this.y = y
         this.isEmpty = true
-        this.item = {}
+        this.item = {moving: false}
         this.isPlayer = isPlayer
         // this.isMoving = false
     }
